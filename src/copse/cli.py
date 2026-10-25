@@ -395,7 +395,7 @@ def sessions_cmd() -> None:
         typer.echo("no paused sessions")
         return
     for s in found:
-        size = sum(sessions.disk_usage(w.path) for w in {db.get_workspace(m.workspace_id) for m in s.members[1:]} - {None}
+        size = sum(sessions.disk_usage(w.path) for w in [db.get_workspace(m.workspace_id) for m in s.members[1:]]
                    if w and w.kind == "worktree" and os.path.isdir(w.path))
         typer.echo(f"{_describe(s)}  ({size / 1e6:.0f} MB in worktrees)")
     typer.echo(f"Keeps the newest {sessions.KEEP} for up to {sessions.MAX_AGE_DAYS} days. `copse prune` cleans up now.")
